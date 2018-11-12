@@ -19,6 +19,11 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function findByGroupedAndLimited()
+    {
+
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */
