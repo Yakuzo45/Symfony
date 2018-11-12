@@ -11,7 +11,10 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Form\ArticleSearchType;
+use App\Form\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
@@ -62,21 +65,35 @@ class BlogController extends AbstractController
      *
      * @Route("/", name="blog_index")
      */
-    public function index()
+    public function index(Request $request)
     {
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findAll();
+
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
 
         if (!$articles) {
             throw $this->createNotFoundException(
                 'No article found in article\'s table.'
             );
         }
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($data);
+            $em->flush();
+
+        }
         return $this->render(
             'blog/index.html.twig',
-            ['articles' => $articles]
+            [
+                'articles' => $articles,
+                'form' => $form->createView(),
+            ]
         );
     }
 
