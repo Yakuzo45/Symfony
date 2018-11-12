@@ -71,8 +71,8 @@ class BlogController extends AbstractController
             ->getRepository(Article::class)
             ->findAll();
 
-        $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category);
+        $article = new Article();
+        $form = $this->createForm(ArticleSearchType::class, $article);
 
         if (!$articles) {
             throw $this->createNotFoundException(
@@ -86,12 +86,36 @@ class BlogController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($data);
             $em->flush();
-
         }
         return $this->render(
             'blog/index.html.twig',
             [
                 'articles' => $articles,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/article/add", name="blog_form_add")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function FormArticles(Request $request)
+    {
+        $article = new Article();
+        $form = $this->createForm(ArticleSearchType::class, $article);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $data = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($data);
+            $em->flush();
+        }
+        return $this->render(
+            'Article/index.html.twig',
+            [
                 'form' => $form->createView(),
             ]
         );

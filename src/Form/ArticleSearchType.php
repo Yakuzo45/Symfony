@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,8 +15,9 @@ class ArticleSearchType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('category')
-        ;
+            ->add('category', EntityType::class, [
+        'class' => Category::class,
+        'choice_label' => 'name',]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
