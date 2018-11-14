@@ -1,7 +1,7 @@
 {# templates/blog/show.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ category.name }}{% endblock %}
 
 {% block stylesheets %}{% endblock %}
 
@@ -14,7 +14,7 @@
 
     {% for article in articles %}
         <div>
-            <h2>{{ loop.index }} / {{ article.name }} - Category : {{ article.category.name }}</h2>
+            <h2>{{ article.id }} / {{ article.name }} - Category : {{ article.category.name }}</h2>
         </div>
     {% endfor %}
 

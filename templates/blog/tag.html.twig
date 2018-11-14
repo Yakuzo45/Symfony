@@ -1,21 +1,21 @@
 {# templates/blog/show.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ article.name }}{% endblock %}
+{% block title %}{{ tag.name }}{% endblock %}
 
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
 
     <div>
-        <h1>Real Article s title : {{ article.name }}</h1>
-        <h2>All tags From this Article</h2>
+        <h1>{{ tag.name }}</h1>
+        <h2>All Articles From this Tag</h2>
     </div>
     <ul>
-        {% for tag in tags %}
-            <li>{{ tag.name }}</li>
+        {% for article in articles %}
+            <li>{{ article.name }}</li>
         {% else %}
-            <li>No tags for this article</li>
+            <li>No articles for this tag</li>
         {% endfor %}
     </ul>
 

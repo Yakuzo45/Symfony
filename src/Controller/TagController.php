@@ -16,16 +16,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArticleController extends AbstractController
+class TagController extends AbstractController
 {
     /**
-     * @Route("/article/{id}")
+     * @Route("/tag/{id}", name="blog_tag")
      */
-    public function show(Article $article): Response
+    public function show(Tag $tag): Response
     {
-        return $this->render('blog/article.html.twig', [
-            'article' => $article,
-            'tags' => $article->getTags(),
+        return $this->render('blog/tag.html.twig', [
+            'tag' => $tag,
+            'articles' => $tag->getArticles(),
         ]);
     }
 }
