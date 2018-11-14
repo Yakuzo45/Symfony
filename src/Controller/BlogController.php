@@ -11,10 +11,11 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Category;
-use App\Form\ArticleSearchType;
+
 use App\Form\CategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
@@ -98,18 +99,14 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/category/{category}", name="blog_show_category")
+     * @Route("/category/{name}", name="blog_show_category")
      * @param string $category
      */
-    public function showByCategory(string $category)
+    public function showByCategory(Category $category): Response
     {
-        $catego = $this->getDoctrine()
-            ->getRepository(Category::class)
-            ->findOneBy(['name' => mb_strtolower($category)]);
-
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)
-            ->findBy(['category' => $catego->getId()], ['id' => 'ASC'] , 3);
+            ->findBy(['category' => $category->getId()], ['id' => 'DESC'] , 3);
 
         if (!$category) {
             throw $this->createNotFoundException(
@@ -120,7 +117,7 @@ class BlogController extends AbstractController
         return $this->render(
             'blog/category.html.twig',
             [
-                'category' => $catego,
+                'category' => $category,
                 'articles' => $articles,
             ]
         );
