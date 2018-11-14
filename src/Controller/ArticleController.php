@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/article/{id}")
+     * @Route("/article/{name}", name="blog_article")
      */
     public function show(Article $article): Response
     {

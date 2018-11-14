@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TagController extends AbstractController
 {
     /**
-     * @Route("/tag/{id}", name="blog_tag")
+     * @Route("/tag/{name}", name="blog_tag")
      */
     public function show(Tag $tag): Response
     {
