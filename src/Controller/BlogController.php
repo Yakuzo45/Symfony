@@ -64,19 +64,8 @@ class BlogController extends AbstractController
      */
     public function index()
     {
-        $articles = $this->getDoctrine()
-            ->getRepository(Article::class)
-            ->findAll();
-
-        if (!$articles) {
-            throw $this->createNotFoundException(
-                'No article found in article\'s table.'
-            );
-        }
-
         return $this->render(
-            'blog/index.html.twig',
-            ['articles' => $articles]
+            'base.html.twig'
         );
     }
 
