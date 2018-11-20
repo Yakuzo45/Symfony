@@ -56,45 +56,4 @@ class BlogController extends AbstractController
         );
     }
 
-
-    /**
-     * Show all row from article's entity
-     *
-     * @Route("/", name="blog_index")
-     */
-    public function index()
-    {
-        return $this->render(
-            'base.html.twig'
-        );
-    }
-
-    /**
-     * @Route("/category/{category}", name="blog_show_category")
-     * @param string $category
-     */
-    public function showByCategory(string $category)
-    {
-        $catego = $this->getDoctrine()
-            ->getRepository(Category::class)
-            ->findOneBy(['name' => mb_strtolower($category)]);
-
-        $articles = $this->getDoctrine()
-            ->getRepository(Article::class)
-            ->findBy(['category' => $catego->getId()], ['id' => 'ASC'] , 3);
-
-        if (!$category) {
-            throw $this->createNotFoundException(
-                'No article with '.$category.' title, found in article\'s table.'
-            );
-        }
-
-        return $this->render(
-            'blog/category.html.twig',
-            [
-                'category' => $catego,
-                'articles' => $articles,
-            ]
-        );
-    }
 }
